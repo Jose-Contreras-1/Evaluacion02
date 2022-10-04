@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -25,20 +26,24 @@ public class ComicDAO implements Serializable {
     public ComicDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("persistence_unit");
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+    public ComicDAO(){
+    }
 
     public void create(Comic comic) throws PreexistingEntityException, Exception {
         EntityManager em = null;
+         System.out.println("Inicio");
         try
         {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(comic);
             em.getTransaction().commit();
+            System.out.println("Comic ingresado");
         } catch (Exception ex)
         {
             if (findComic(comic.getId()) != null)
@@ -100,11 +105,15 @@ public class ComicDAO implements Serializable {
                 throw new NonexistentEntityException("The comic with id " + id + " no longer exists.", enfe);
             }
             em.remove(comic);
+            
+            
             em.getTransaction().commit();
         } finally
         {
             if (em != null)
             {
+               
+                em.clear();
                 em.close();
             }
         }

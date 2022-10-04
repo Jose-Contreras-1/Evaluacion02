@@ -41,19 +41,24 @@ public class Comic implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
+    
     @Size(max = 2147483647)
     @Column(name = "nombre")
     private String nombre;
+    
     @Size(max = 2147483647)
-    @Column(name = "editorial ")
+    @Column(name = "editorial")
     private String editorial;
+    
     @Size(max = 2147483647)
-    @Column(name = "editorialPublicacion")
+    @Column(name = "editorial_publicacion")
     private String editorialPublicacion;
-    @Column(name = "numeroDeLibro")
+    
+    @Column(name = "numero_de_libro")
     private Integer numeroDeLibro;
+    
     @Size(max = 2147483647)
-    @Column(name = "escritoIlustrador")
+    @Column(name = "escritor_ilustrador")
     private String escritoIlustrador;
 
     public Comic() {
